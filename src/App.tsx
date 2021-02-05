@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { CenterLoader } from "./components/atoms/loadingComponents";
 
 const Login = React.lazy(() => import("./pages/Auth/login"));
+const Register = React.lazy(() => import("./pages/Auth/register"));
 const Layout = React.lazy(() => import("./shared/layout"));
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
         <React.Suspense fallback={CenterLoader()}>
           <Switch>
             <Route exact={true} component={Login} path={"/login"} />
+            <Route exact={true} component={Register} path={"/register"} />
             <Route exact={false} component={Layout} path={"/"} />
           </Switch>
         </React.Suspense>

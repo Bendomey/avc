@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./tailwind.css";
 import "./shared/styles/modals.css";
+import "./shared/styles/global.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 

@@ -1,12 +1,13 @@
 import * as React from "react";
-import { Route, Switch, Link } from "react-router-dom";
+import { Switch, Link } from "react-router-dom";
 import { RouteType as IRoute } from "../interfaces/misc";
 import routes from "../../routes";
 import { PageLoader } from "../../components/atoms/loadingComponents";
 import ClientSettings from "../../pages/Client/Settings";
 import ClientSetup from "../../pages/Client/Setup";
+import Route from "../../services/protectedRoutes";
 
-let userSetup: boolean = true;
+let userSetup: boolean = false;
 const ClientDashboard = () => {
   return (
     <React.Fragment>
@@ -17,6 +18,7 @@ const ClientDashboard = () => {
               <Route
                 path={"/settings"}
                 exact={true}
+                name={"Settings"}
                 component={ClientSettings}
               />
               <div className="pt-5">
@@ -189,6 +191,7 @@ const ClientDashboard = () => {
                       <React.Fragment key={i}>
                         <Route
                           path={route.path}
+                          name={route.name}
                           component={route.component as any}
                           exact={route.exact}
                         />

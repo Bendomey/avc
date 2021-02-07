@@ -3,13 +3,43 @@ import { PopupModal } from "../../../components/atoms/Modals";
 import { VerifyModalProp } from "../../../shared/interfaces/register";
 import ClipLoader from "react-spinners/ClipLoader";
 import VerifySVG from "../../../assets/sentMessage";
+import { useMutation, ApolloError } from "@apollo/client";
+import {
+  RESEND_VERIFICATION_CODE,
+  VERIFY_EMIAL,
+} from "../../../services/graphql/mutations";
+import { toaster } from "evergreen-ui";
+import _ from "lodash";
+import {
+  ResendVerificationCodeInputProps,
+  ResendVerificationCodeOutputProps,
+  VerifyEmailInputProps,
+  VerifyEmailOutputProps,
+} from "../../../shared/interfaces/login";
+import { AuthContext } from "../../../services/context";
+import { useHistory } from "react-router-dom";
 
-const loading = false;
-const email = "domeybenjamin1@gmail.com";
 const resendLoading = false;
-const VerifyEmail: React.FC<VerifyModalProp> = ({ setShow, show }) => {
+const VerifyEmail: React.FC<VerifyModalProp> = ({
+  setShow,
+  show,
+  email,
+  id,
+}) => {
+  const [{ signIn }] = React.useContext(AuthContext);
+  const { push } = useHistory();
   const [countDown, setCountdown] = React.useState<number>(59);
   const [code, setCode] = React.useState<string>("");
+
+  const [invokeResend, { loading: loadResend }] = useMutation<
+    ResendVerificationCodeOutputProps,
+    ResendVerificationCodeInputProps
+  >(RESEND_VERIFICATION_CODE);
+
+  const [invokeVerification, { loading }] = useMutation<
+    VerifyEmailOutputProps,
+    VerifyEmailInputProps
+  >(VERIFY_EMIAL);
 
   React.useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -17,8 +47,47 @@ const VerifyEmail: React.FC<VerifyModalProp> = ({ setShow, show }) => {
       timer = setTimeout(() => setCountdown(countDown - 1), 1000);
     return () => clearTimeout(timer);
   }, [countDown]);
-  const handleResendVerification = () => {};
-  const HandleSubmit = () => {};
+
+  //invoke handle resend
+  const handleResendVerification = () => {
+    invokeResend({
+      variables: {
+        id,
+      },
+    })
+      .then(() => {
+        setCountdown(59);
+      })
+      .catch((e: ApolloError) => {
+        if (e?.graphQLErrors?.length > 0) {
+          toaster.danger(_.startCase(_.camelCase(e.graphQLErrors[0]?.message)));
+        }
+      });
+  };
+
+  //invoke verify code
+  const HandleSubmit = () => {
+    if (code.trim().length < 6) {
+      return toaster.warning("Code Is Incorrect");
+    }
+    invokeVerification({
+      variables: {
+        id,
+        code,
+      },
+    })
+      .then(async ({ data }) => {
+        if (data) {
+          await signIn(data?.verifyUserEmail);
+          push("/");
+        }
+      })
+      .catch((e: ApolloError) => {
+        if (e?.graphQLErrors?.length > 0) {
+          toaster.danger(_.startCase(_.camelCase(e.graphQLErrors[0]?.message)));
+        }
+      });
+  };
   return (
     <React.Fragment>
       <PopupModal show={show} setShow={setShow} canClose={false}>
@@ -79,9 +148,10 @@ const VerifyEmail: React.FC<VerifyModalProp> = ({ setShow, show }) => {
                     <button
                       onClick={handleResendVerification}
                       type={"button"}
+                      disabled={loadResend || loading}
                       className={"text-blue-600 focus:outline-none"}
                     >
-                      resend
+                      {loadResend ? "resending..." : "resend"}
                     </button>
                   )}
                 </span>
@@ -93,6 +163,7 @@ const VerifyEmail: React.FC<VerifyModalProp> = ({ setShow, show }) => {
               >
                 <button
                   onClick={HandleSubmit}
+                  disabled={loadResend || loading}
                   className={
                     "border-r border-gray-200 flex justify-center items-center hover:bg-gray-50 focus:outline-none"
                   }

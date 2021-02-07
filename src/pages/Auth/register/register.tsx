@@ -12,6 +12,7 @@ const Register = () => {
 
   //for variables to backend
   const [type, setType] = React.useState<string>("");
+  const [id, setId] = React.useState<string>("");
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [confirm, setConfirm] = React.useState<string>("");
@@ -27,6 +28,7 @@ const Register = () => {
 
   const HandleRegister = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setId(""); // set id here
     setShowVerifyModal(true);
   };
 
@@ -275,7 +277,12 @@ const Register = () => {
         </div>
       </div>
       <React.Suspense fallback={WaitForModal()}>
-        <VerifyEmailModal show={showVerifyModal} setShow={setShowVerifyModal} />
+        <VerifyEmailModal
+          email={email}
+          id={id}
+          show={showVerifyModal}
+          setShow={setShowVerifyModal}
+        />
       </React.Suspense>
     </React.Fragment>
   );

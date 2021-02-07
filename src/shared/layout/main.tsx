@@ -6,6 +6,9 @@ import LawyerLayout from "./laywer";
 
 let user: "client" | "lawyer" = "lawyer";
 const Layout = () => {
+  React.useEffect(() => {
+    document.title = "Welcome Back - African Venture Counsel";
+  }, []);
   return (
     <React.Fragment>
       <div className="min-h-screen bg-gray-100">

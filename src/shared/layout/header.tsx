@@ -1,13 +1,23 @@
 import * as React from "react";
 import logo from "../../assets/images/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useOutsideListener } from "../../components/atoms/Hooks";
 import Transition from "../../components/atoms/transitions";
 import userPng from "../../assets/images/male.jpeg";
+import { CornerDialog } from "evergreen-ui";
+import { AuthContext } from "../../services/context";
 
 const Header = () => {
+  const [{ signOut }] = React.useContext(AuthContext);
   const wrapperContainer = React.useRef<any>(null);
   const [showDropDown, setShowDropdown] = React.useState<boolean>(false);
+  const [logoutReguest, setLogoutRequest] = React.useState(false);
+  const { push } = useHistory();
+
+  const handleLogout = () => {
+    signOut();
+    push("/login");
+  };
   useOutsideListener(wrapperContainer, () => setShowDropdown(false));
   return (
     <React.Fragment>
@@ -161,7 +171,6 @@ const Header = () => {
                     <img
                       className="h-8 w-8 rounded-full"
                       src={userPng}
-                      // src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
                       alt=""
                     />
                   </button>
@@ -198,13 +207,16 @@ const Header = () => {
                       Settings
                     </a>
 
-                    <a
-                      href="/"
-                      className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100"
+                    <span
+                      onClick={() => {
+                        setLogoutRequest(!logoutReguest);
+                        setShowDropdown(false);
+                      }}
+                      className="block px-4 py-2 cursor-pointer text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                       role="menuitem"
                     >
                       Sign out
-                    </a>
+                    </span>
                   </div>
                 </Transition>
               </div>
@@ -323,6 +335,16 @@ const Header = () => {
           </div>
         </nav>
       </header>
+
+      <CornerDialog
+        title="Logout Request"
+        isShown={logoutReguest}
+        onCloseComplete={() => setLogoutRequest(!setLogoutRequest)}
+        onConfirm={handleLogout}
+        confirmLabel={"Yes"}
+      >
+        Are you sure you want to logout?
+      </CornerDialog>
     </React.Fragment>
   );
 };

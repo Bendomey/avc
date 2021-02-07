@@ -3,6 +3,7 @@ import image from "../../../assets/images/logo.png";
 import background from "../../../assets/images/background.jpg";
 import { Link } from "react-router-dom";
 import { useQueryStrings } from "../../../components/atoms/Hooks";
+import Cookies from "../../../services/cookie.config";
 
 import VerifyEmailModal from "./verify-email";
 import { WaitForModal } from "../../../components/atoms/loadingComponents";
@@ -18,6 +19,11 @@ const Register = () => {
   const [confirm, setConfirm] = React.useState<string>("");
 
   const [showVerifyModal, setShowVerifyModal] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    document.title = "Register - African Venture Counsel";
+    Cookies.clearCipher();
+  }, []);
 
   //listne on query change
   React.useEffect(() => {

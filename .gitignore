@@ -29,3 +29,5 @@ yarn-error.log*
 /src/tailwind.css
 
 .eslintcache
+
+dump.rdb

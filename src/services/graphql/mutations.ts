@@ -124,3 +124,12 @@ export const VERIFY_EMIAL = gql`
     }
   }
 `;
+
+//for registrations
+export const REGISTER = gql`
+  mutation($type: UserType!, $email: String!, $password: String!) {
+    createUser(type: $type, email: $email, password: $password) {
+      id
+    }
+  }
+`;

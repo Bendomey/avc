@@ -4,9 +4,16 @@ import background from "../../../assets/images/background.jpg";
 import { Link } from "react-router-dom";
 import { useQueryStrings } from "../../../components/atoms/Hooks";
 import Cookies from "../../../services/cookie.config";
-
+import _ from "lodash";
 import VerifyEmailModal from "./verify-email";
 import { WaitForModal } from "../../../components/atoms/loadingComponents";
+import { toaster } from "evergreen-ui";
+import { ApolloError, useMutation } from "@apollo/client";
+import { REGISTER } from "../../../services/graphql/mutations";
+import {
+  RegisterInputProps,
+  RegisterOutputProps,
+} from "../../../shared/interfaces/register";
 
 const Register = () => {
   const query = useQueryStrings();
@@ -32,10 +39,48 @@ const Register = () => {
     } else setType(query.get("user") || "");
   }, [query]);
 
+  const [invokeRegister, { loading }] = useMutation<
+    RegisterOutputProps,
+    RegisterInputProps
+  >(REGISTER);
+
   const HandleRegister = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setId(""); // set id here
-    setShowVerifyModal(true);
+    toaster.closeAll();
+
+    if (password.trim().length < 6) {
+      return toaster.warning(
+        "Oops, your password should be not be less than 6 characters"
+      );
+    }
+    if (password.trim() !== confirm.trim()) {
+      return toaster.warning("Oops, your passwords do not match");
+    }
+
+    invokeRegister({
+      variables: {
+        type: type === "client" ? "Customer" : "Lawyer",
+        email: email.trim(),
+        password: password.trim(),
+      },
+    })
+      .then(({ data }) => {
+        if (data) {
+          setId(data?.createUser?.id); // set id here
+          setShowVerifyModal(true);
+        }
+      })
+      .catch((e: ApolloError) => {
+        if (e?.graphQLErrors?.length > 0) {
+          if (["UserAlreadyExists"].includes(e.graphQLErrors[0]?.message)) {
+            toaster.danger("Oops, a user with this email already exists");
+          } else {
+            toaster.danger(
+              _.startCase(_.camelCase(e.graphQLErrors[0]?.message))
+            );
+          }
+        }
+      });
   };
 
   return (
@@ -256,10 +301,11 @@ const Register = () => {
 
                   <div>
                     <button
+                      disabled={loading}
                       type="submit"
                       className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                     >
-                      Sign Up
+                      {loading ? "Loading..." : "  Sign Up"}
                     </button>
                   </div>
                   <div className={"flex justify-center"}>

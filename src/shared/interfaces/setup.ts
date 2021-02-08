@@ -49,6 +49,7 @@ export interface UpdateCustomerDetailsInputProps {
   addressCountry?: string;
   addressCity?: string;
   addressNumber?: string;
+  addressStreetName?: string;
   digitalAddress?: string;
   companyEntityTypeOther?: string;
   email?: string;
@@ -61,6 +62,38 @@ export interface UpdateCustomerDetailsInputProps {
 
 export interface UpdateCustomerDetailsOutputProps {
   updateUserAndCustomer: {
+    token: string;
+    user: User;
+    lawyer: Lawyer;
+    customer: Customer;
+  };
+}
+
+//for updating lawyer details
+export interface UpdateLawyerDetailsInputProps {
+  firstName?: string;
+  lastName?: string;
+  otherNames?: string;
+  tin?: string;
+  phone?: string;
+  addressCountry?: string;
+  addressCity?: string;
+  addressStreetName?: string;
+  addressNumber?: string;
+  digitalAddress?: string;
+  email?: string;
+  licenseNumber?: string;
+  nationalIDBack?: string;
+  nationalIDFront?: string;
+  coverLetter?: string;
+  BARMembershipCard?: string;
+  CV?: string;
+  firstYearOfBarAdmission?: string;
+  lawCertificate?: string;
+}
+
+export interface UpdateLawyerDetailsOutputProps {
+  updateUserAndLawyer: {
     token: string;
     user: User;
     lawyer: Lawyer;

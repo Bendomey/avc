@@ -10,7 +10,6 @@ import {
   UpdateCustomerDetailsOutputProps,
 } from "../../../shared/interfaces/setup";
 import { UPDATE_CUSTOMER } from "../../../services/graphql/mutations";
-// import { toaster } from "evergreen-ui";
 import { AuthContext } from "../../../services/context";
 
 const Setup = () => {
@@ -71,6 +70,10 @@ const Setup = () => {
         tin: tin.trim(),
         addressCountry: addressCountry.trim(),
         addressCity: addressCity.trim(),
+        addressStreetName:
+          addressStreetName.trim() === ""
+            ? undefined
+            : addressStreetName.trim(),
         addressNumber:
           addressNumber.trim() === "" ? undefined : addressNumber.trim(),
         digitalAddress:

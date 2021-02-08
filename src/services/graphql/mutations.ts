@@ -250,3 +250,105 @@ export const UPDATE_CUSTOMER = gql`
     }
   }
 `;
+
+//update lawyer
+export const UPDATE_LAWYER = gql`
+  mutation(
+    $firstName: String
+    $lastName: String
+    $otherNames: String
+    $tin: String
+    $phone: String
+    $addressCountry: String
+    $addressCity: String
+    $addressNumber: String
+    $addressStreetName: String
+    $digitalAddress: String
+    $email: String
+    $lawCertificate: String
+    $firstYearOfBarAdmission: String
+    $CV: String
+    $BARMembershipCard: String
+    $coverLetter: String
+    $nationalIDBack: String
+    $nationalIDFront: String
+    $licenseNumber: String
+  ) {
+    updateUserAndLawyer(
+      input: {
+        firstName: $firstName
+        lastName: $lastName
+        otherNames: $otherNames
+        tin: $tin
+        phone: $phone
+        addressCountry: $addressCountry
+        addressCity: $addressCity
+        addressNumber: $addressNumber
+        addressStreetName: $addressStreetName
+        digitalAddress: $digitalAddress
+        email: $email
+        lawCertificate: $lawCertificate
+        firstYearOfBarAdmission: $firstYearOfBarAdmission
+        CV: $CV
+        BARMembershipCard: $BARMembershipCard
+        coverLetter: $coverLetter
+        nationalIDFront: $nationalIDFront
+        nationalIDBack: $nationalIDBack
+        licenseNumber: $licenseNumber
+      }
+    ) {
+      token
+      user {
+        id
+        firstName
+        otherNames
+        lastName
+        email
+        type
+        setupAt
+        emailVerifiedAt
+        phone
+        phoneVerifiedAt
+        createdAt
+        updatedAt
+      }
+      lawyer {
+        id
+        addressCity
+        addressCountry
+        addressNumber
+        addressStreetNumber
+        barMembershipCard
+        coverLetter
+        createdAt
+        updatedAt
+        cv
+        digitalAddress
+        firstYearOfBarAdmission
+        lawCertificate
+        licenseNumber
+        nationalIDBack
+        nationalIDFront
+        tin
+      }
+      customer {
+        id
+        addressCity
+        addressCountry
+        addressNumber
+        addressStreetNumber
+        companyCountryOfRegistration
+        companyDateOfRegistration
+        companyEntityType
+        companyEntityTypeOther
+        companyName
+        companyRegistrationNumber
+        createdAt
+        digitalAddress
+        tin
+        type
+        updatedAt
+      }
+    }
+  }
+`;

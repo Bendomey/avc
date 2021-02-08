@@ -1,8 +1,93 @@
 import * as React from "react";
-import { getYears } from "../../../services/broker";
+import { AuthContext } from "../../../services/context";
+import Step from "./steps";
+import Personal from "./tabs/personal";
+import Address from "./tabs/address";
+import LawRelated from "./tabs/law-related";
+import {
+  UpdateLawyerDetailsInputProps,
+  UpdateLawyerDetailsOutputProps,
+} from "../../../shared/interfaces/setup";
+import { UPDATE_LAWYER } from "../../../services/graphql/mutations";
+import { useMutation } from "@apollo/client";
 
 const Setup = () => {
-  const [type, setType] = React.useState<string>("");
+  const [{ signIn }] = React.useContext(AuthContext);
+
+  //for persoanl
+  const [lastName, setLastName] = React.useState<string>("");
+  const [firstName, setFirstName] = React.useState<string>("");
+  const [otherNames, setOtherNames] = React.useState<string>("");
+  const [tin, setTin] = React.useState<string>("");
+  const [phone, setPhone] = React.useState<string>("");
+  const [phoneVerified, setPhoneVerified] = React.useState<boolean>(false);
+
+  //for address
+  const [addressCountry, setAddressCountry] = React.useState<string>("");
+  const [addressCity, setAddressCity] = React.useState<string>("");
+  const [addressNumber, setAddressNumber] = React.useState<string>("");
+  const [
+    addressDigitalAddress,
+    setAddressDigitalAddress,
+  ] = React.useState<string>("");
+  const [addressStreetName, setAddressStreetName] = React.useState<string>("");
+
+  //law related
+  const [firstYearOfBARAdmission, setFirstYearOfBARAdmission] = React.useState(
+    ""
+  );
+  const [licenseNumber, setLicenseNumber] = React.useState("");
+  const [nationalIDFront, setNationalIDFront] = React.useState("");
+  const [nationalIDBack, setNationalIDBack] = React.useState("");
+  const [barMembershipCard, setBarMembershipCard] = React.useState("");
+  const [lawCert, setLawCert] = React.useState("");
+  const [cv, setCV] = React.useState("");
+  const [letter, setLetter] = React.useState("");
+
+  //for steps
+  const [step, setStep] = React.useState<number>(0);
+
+  //handle submit
+  const [updatelawyerInvoker, { loading }] = useMutation<
+    UpdateLawyerDetailsOutputProps,
+    UpdateLawyerDetailsInputProps
+  >(UPDATE_LAWYER);
+
+  const HandleSubmit = () => {
+    return updatelawyerInvoker({
+      variables: {
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+        otherNames: otherNames.trim() === "" ? undefined : otherNames.trim(),
+        phone: phone.trim(),
+        tin: tin.trim(),
+        addressCountry: addressCountry.trim(),
+        addressCity: addressCity.trim(),
+        addressStreetName:
+          addressStreetName.trim() === ""
+            ? undefined
+            : addressStreetName.trim(),
+        addressNumber:
+          addressNumber.trim() === "" ? undefined : addressNumber.trim(),
+        digitalAddress:
+          addressDigitalAddress.trim() === ""
+            ? undefined
+            : addressDigitalAddress.trim(),
+        licenseNumber: licenseNumber.trim(),
+        nationalIDBack: nationalIDBack.trim(),
+        nationalIDFront: nationalIDFront.trim(),
+        coverLetter: letter.trim(),
+        BARMembershipCard: barMembershipCard.trim(),
+        CV: cv.trim(),
+        firstYearOfBarAdmission: firstYearOfBARAdmission.trim(),
+        lawCertificate: lawCert.trim(),
+      },
+    }).then(async ({ data }) => {
+      if (data) {
+        await signIn(data?.updateUserAndLawyer);
+      }
+    });
+  };
   return (
     <React.Fragment>
       <div className="pt-10 max-w-3xl mx-auto sm:px-6 lg:max-w-7xl">
@@ -10,456 +95,72 @@ const Setup = () => {
           Setup Your Account
         </h1>
         <div className={"mt-0 sm:mt-0 md:mt-5"}>
-          <div className="w-full md:grid md:grid-cols-3 md:gap-6">
-            <div className="mt-10 col-span-3 sm:mt-0">
-              <div className="md:grid md:grid-cols-3 md:gap-6">
-                <div className="md:col-span-1">
-                  <div className="px-4 sm:px-0">
-                    <h3 className="text-lg font-medium leading-6 text-gray-900">
-                      Personal Information
-                    </h3>
-                    <p className="mt-1 text-sm text-gray-600">
-                      Enter your Personal Details here
-                    </p>
-                  </div>
-                </div>
-                <div className="mt-5 md:mt-0 md:col-span-2">
-                  <form action="#" method="POST">
-                    <div className="shadow overflow-hidden sm:rounded-md">
-                      <div className="px-4 py-5 bg-white sm:p-6">
-                        <div className="grid grid-cols-6 gap-6">
-                          <div className="col-span-6 sm:col-span-3">
-                            <label
-                              htmlFor="last_name"
-                              className="block text-sm font-medium text-gray-700"
-                            >
-                              Last name{" "}
-                              <span className={"text-rose-500"}>*</span>
-                            </label>
-                            <input
-                              type="text"
-                              name="last_name"
-                              id="last_name"
-                              placeholder={"Enter Last Name here..."}
-                              autoComplete="family-name"
-                              className="mt-1 focus:ring-rose-500 bg-gray-50 py-3 focus:border-rose-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                            />
-                          </div>
-                          <div className="col-span-6 sm:col-span-3">
-                            <label
-                              htmlFor="first_name"
-                              className="block text-sm font-medium text-gray-700"
-                            >
-                              First name{" "}
-                              <span className={"text-rose-500"}>*</span>
-                            </label>
-                            <input
-                              type="text"
-                              name="first_name"
-                              id="first_name"
-                              placeholder={"Enter First Name here..."}
-                              autoComplete="given-name"
-                              className="mt-1 focus:ring-rose-500 bg-gray-50 py-3 focus:border-rose-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                            />
-                          </div>
-                          <div className="col-span-6 sm:col-span-6">
-                            <label
-                              htmlFor="first_name"
-                              className="block text-sm font-medium text-gray-700"
-                            >
-                              Other Names
-                            </label>
-                            <input
-                              type="text"
-                              name="first_name"
-                              id="first_name"
-                              placeholder={"Enter Other Names here..."}
-                              autoComplete="given-name"
-                              className="mt-1 focus:ring-rose-500 bg-gray-50 py-3 focus:border-rose-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                            />
-                          </div>
-
-                          <div className="col-span-6 sm:col-span-3">
-                            <label
-                              htmlFor="email_address"
-                              className="block text-sm font-medium text-gray-700"
-                            >
-                              Tax Identification Number{" "}
-                              <span className={"text-rose-500"}>*</span>
-                            </label>
-                            <input
-                              type="text"
-                              placeholder={"TIN here ..."}
-                              className="mt-1 focus:ring-rose-500 py-3 bg-gray-50 focus:border-rose-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                            />
-                          </div>
-                          <div className="col-span-6 sm:col-span-2">
-                            <label
-                              htmlFor="email_address"
-                              className="block text-sm font-medium text-gray-700"
-                            >
-                              Phone Number{" "}
-                              <span className={"text-rose-500"}>*</span>
-                            </label>
-                            <input
-                              type="text"
-                              placeholder={"Phone here ..."}
-                              className="mt-1 focus:ring-rose-500 py-3 bg-gray-50 focus:border-rose-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                            />
-                          </div>
-                          <div className="col-span-6 sm:col-span-1">
-                            <button
-                              type="button"
-                              className="inline-flex mt-5 justify-center py-3 w-full px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-rose-600 hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
-                            >
-                              Verify Now
-                            </button>
-                            {/* <div
-                              className={
-                                "mt-5 flex flex-row items-center text-green-600 h-12"
-                              }
-                            >
-                              <span className={"mr-1"}>No. Verified</span>
-                              <svg
-                                className={"h-5 w-5"}
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M5 13l4 4L19 7"
-                                />
-                              </svg>
-                            </div> */}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
-              <div className="hidden sm:block" aria-hidden="true">
-                <div className="py-5">
-                  <div className="border-t border-gray-200"></div>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-10 col-span-3 sm:mt-0">
-              <div className="md:grid md:grid-cols-3 md:gap-6">
-                <div className="md:col-span-1">
-                  <div className="px-4 sm:px-0">
-                    <h3 className="text-lg font-medium leading-6 text-gray-900">
-                      Address Information
-                    </h3>
-                    <p className="mt-1 text-sm text-gray-600">
-                      Enter your address details here
-                    </p>
-                  </div>
-                </div>
-                <div className="mt-5 md:mt-0 md:col-span-2">
-                  <form action="#" method="POST">
-                    <div className="shadow overflow-hidden sm:rounded-md">
-                      <div className="px-4 py-5 bg-white sm:p-6">
-                        <div className="grid grid-cols-6 gap-6">
-                          <div className="col-span-6 sm:col-span-6">
-                            <label
-                              htmlFor="country"
-                              className="block text-sm font-medium text-gray-700"
-                            >
-                              Country <span className={"text-red-500"}>*</span>
-                            </label>
-                            <select
-                              id="country"
-                              name="country"
-                              autoComplete="country"
-                              className="mt-1 block w-full py-3 bg-gray-50 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-rose-500 focus:border-rose-500 sm:text-sm"
-                            >
-                              <option>United States</option>
-                              <option>Canada</option>
-                              <option>Mexico</option>
-                            </select>
-                          </div>
-
-                          <div className="col-span-6 sm:col-span-6 lg:col-span-2">
-                            <label
-                              htmlFor="city"
-                              className="block text-sm font-medium text-gray-700"
-                            >
-                              City <span className={"text-red-500"}>*</span>
-                            </label>
-                            <input
-                              type="text"
-                              placeholder={"City Name here ..."}
-                              name="city"
-                              id="city"
-                              required
-                              className="mt-1 focus:ring-rose-500 py-3 bg-gray-50 focus:border-rose-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                            />
-                          </div>
-
-                          <div className="col-span-6 sm:col-span-3 lg:col-span-2">
-                            <label
-                              htmlFor="postal_code"
-                              className="block text-sm font-medium text-gray-700"
-                            >
-                              Address Number
-                            </label>
-                            <input
-                              type="text"
-                              name="postal_code"
-                              placeholder={"Address Number here ..."}
-                              id="postal_code"
-                              autoComplete="postal-code"
-                              className="mt-1 focus:ring-rose-500 py-3 bg-gray-50 focus:border-rose-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                            />
-                          </div>
-                          <div className="col-span-6 sm:col-span-3 lg:col-span-2">
-                            <label
-                              htmlFor="state"
-                              className="block text-sm font-medium text-gray-700"
-                            >
-                              Digital Address
-                            </label>
-                            <input
-                              type="text"
-                              placeholder={"Digital Address here ..."}
-                              className="mt-1 focus:ring-rose-500 py-3 bg-gray-50 focus:border-rose-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                            />
-                          </div>
-                          <div className="col-span-6">
-                            <label
-                              htmlFor="street_address"
-                              className="block text-sm font-medium text-gray-700"
-                            >
-                              Street Name
-                            </label>
-                            <input
-                              type="text"
-                              name="street_address"
-                              id="street_address"
-                              placeholder={"Street Name Information here ..."}
-                              autoComplete="street-address"
-                              className="mt-1 focus:ring-rose-500 py-3 bg-gray-50 focus:border-rose-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
-              <div className="hidden sm:block" aria-hidden="true">
-                <div className="py-5">
-                  <div className="border-t border-gray-200"></div>
-                </div>
-              </div>
-            </div>
-            <div className="mt-10 col-span-3 sm:mt-0">
-              <div className="md:grid md:grid-cols-3 md:gap-6">
-                <div className="md:col-span-1">
-                  <div className="px-4 sm:px-0">
-                    <h3 className="text-lg font-medium leading-6 text-gray-900">
-                      Lawyer Related Information
-                    </h3>
-                    <p className="mt-1 text-sm text-gray-600">
-                      Enter your lawyer related details here
-                    </p>
-                  </div>
-                </div>
-                <div className="mt-5 md:mt-0 md:col-span-2">
-                  <form action="#" method="POST">
-                    <div className="shadow overflow-hidden sm:rounded-md">
-                      <div className="px-4 py-5 bg-white sm:p-6">
-                        <div className="grid grid-cols-6 gap-6">
-                          <div className="col-span-6 sm:col-span-6 lg:col-span-4">
-                            <label
-                              htmlFor="city"
-                              className="block text-sm font-medium text-gray-700"
-                            >
-                              License Number{" "}
-                              <span className={"text-red-500"}>*</span>
-                            </label>
-                            <input
-                              type="text"
-                              placeholder={"License Number here ..."}
-                              required
-                              className="mt-1 focus:ring-rose-500 py-3 bg-gray-50 focus:border-rose-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                            />
-                          </div>
-                          <div className="col-span-6 sm:col-span-6 lg:col-span-2">
-                            <label
-                              htmlFor="city"
-                              className="block text-sm font-medium text-gray-700"
-                            >
-                              First yeal of BAR Admission{" "}
-                              <span className={"text-red-500"}>*</span>
-                            </label>
-                            <select
-                              required
-                              className="mt-1 block w-full py-3 bg-gray-50 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-rose-500 focus:border-rose-500 sm:text-sm"
-                            >
-                              <option className={""}>Please select</option>
-                              {getYears(
-                                1990,
-                                new Date().getFullYear() - 7
-                              )?.map((year: number, i: number) => {
-                                return (
-                                  <React.Fragment key={i}>
-                                    <option value={year.toString()}>
-                                      {year}
-                                    </option>
-                                  </React.Fragment>
-                                );
-                              })}
-                            </select>
-                          </div>
-
-                          <div className="col-span-6 sm:col-span-6 lg:col-span-5">
-                            <label
-                              htmlFor="city"
-                              className="block text-sm font-medium text-gray-700"
-                            >
-                              National ID (Front){" "}
-                              <span className={"text-red-500"}>*</span>
-                            </label>
-                            <input
-                              type="file"
-                              required
-                              className="mt-1 focus:ring-rose-500 py-3 bg-gray-50 focus:border-rose-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                            />
-                          </div>
-                          <button
-                            type="button"
-                            className="inline-flex mt-5 justify-center py-4 w-full px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-rose-600 hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
-                          >
-                            Upload
-                          </button>
-                          <div className="col-span-6 sm:col-span-6 lg:col-span-5">
-                            <label
-                              htmlFor="city"
-                              className="block text-sm font-medium text-gray-700"
-                            >
-                              National ID (Back){" "}
-                              <span className={"text-red-500"}>*</span>
-                            </label>
-                            <input
-                              type="file"
-                              required
-                              className="mt-1 focus:ring-rose-500 py-3 bg-gray-50 focus:border-rose-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                            />
-                          </div>
-                          <button
-                            type="button"
-                            className="inline-flex mt-5 justify-center py-4 w-full px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-rose-600 hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
-                          >
-                            Upload
-                          </button>
-                          <div className="col-span-6 sm:col-span-6 lg:col-span-5">
-                            <label
-                              htmlFor="city"
-                              className="block text-sm font-medium text-gray-700"
-                            >
-                              BAR membership card{" "}
-                              <span className={"text-red-500"}>*</span>
-                            </label>
-                            <input
-                              type="file"
-                              required
-                              className="mt-1 focus:ring-rose-500 py-3 bg-gray-50 focus:border-rose-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                            />
-                          </div>
-                          <button
-                            type="button"
-                            className="inline-flex mt-5 justify-center py-4 w-full px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-rose-600 hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
-                          >
-                            Upload
-                          </button>
-                          <div className="col-span-6 sm:col-span-6 lg:col-span-5">
-                            <label
-                              htmlFor="city"
-                              className="block text-sm font-medium text-gray-700"
-                            >
-                              Copy of law certificate{" "}
-                              <span className={"text-red-500"}>*</span>
-                            </label>
-                            <input
-                              type="file"
-                              required
-                              className="mt-1 focus:ring-rose-500 py-3 bg-gray-50 focus:border-rose-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                            />
-                          </div>
-                          <button
-                            type="button"
-                            className="inline-flex mt-5 justify-center py-4 w-full px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-rose-600 hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
-                          >
-                            Upload
-                          </button>
-                          <div className="col-span-6 sm:col-span-6 lg:col-span-5">
-                            <label
-                              htmlFor="city"
-                              className="block text-sm font-medium text-gray-700"
-                            >
-                              CV <span className={"text-red-500"}>*</span>
-                            </label>
-                            <input
-                              type="file"
-                              required
-                              className="mt-1 focus:ring-rose-500 py-3 bg-gray-50 focus:border-rose-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                            />
-                          </div>
-                          <button
-                            type="button"
-                            className="inline-flex mt-5 justify-center py-4 w-full px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-rose-600 hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
-                          >
-                            Upload
-                          </button>
-                          <div className="col-span-6 sm:col-span-6 lg:col-span-5">
-                            <label
-                              htmlFor="city"
-                              className="block text-sm font-medium text-gray-700"
-                            >
-                              Letter of good standing from BAR
-                              <span className={"text-red-500"}>*</span>
-                            </label>
-                            <input
-                              type="file"
-                              required
-                              className="mt-1 focus:ring-rose-500 py-3 bg-gray-50 focus:border-rose-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                            />
-                          </div>
-                          <button
-                            type="button"
-                            className="inline-flex mt-5 justify-center py-4 w-full px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-rose-600 hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
-                          >
-                            Upload
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
-              <div className="hidden sm:block" aria-hidden="true">
-                <div className="py-5">
-                  <div className="border-t border-gray-200"></div>
-                </div>
-              </div>
-            </div>
-
-            <div className="px-4 py-3 col-span-3 bg-gray-50 text-right sm:px-6 mb-5">
-              <button
-                type="submit"
-                className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-rose-600 hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
-              >
-                Setup Account
-              </button>
-            </div>
+          <div className={"my-10 flex justify-center"}>
+            <Step step={step} />
           </div>
+          <form onSubmit={HandleSubmit}>
+            <div className="w-full md:grid md:grid-cols-3 md:gap-6">
+              {step === 0 ? (
+                <React.Fragment>
+                  <Personal
+                    lastName={lastName}
+                    setLastName={setLastName}
+                    firstName={firstName}
+                    setFirstName={setFirstName}
+                    otherNames={otherNames}
+                    setOtherNames={setOtherNames}
+                    phone={phone}
+                    setPhone={setPhone}
+                    phoneVerified={phoneVerified}
+                    setPhoneVerified={setPhoneVerified}
+                    tin={tin}
+                    setTin={setTin}
+                    setStep={setStep}
+                  />
+                </React.Fragment>
+              ) : step === 1 ? (
+                <React.Fragment>
+                  <Address
+                    setStep={setStep}
+                    addressCountry={addressCountry}
+                    setAddressCountry={setAddressCountry}
+                    addressCity={addressCity}
+                    setAddressCity={setAddressCity}
+                    addressNumber={addressNumber}
+                    setAddressNumber={setAddressNumber}
+                    addressDigitalAddress={addressDigitalAddress}
+                    setAddressDigitalAddress={setAddressDigitalAddress}
+                    addressStreetName={addressStreetName}
+                    setAddressStreetName={setAddressStreetName}
+                  />
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <LawRelated
+                    setStep={setStep}
+                    licenseNumber={licenseNumber}
+                    setLicenseNumber={setLicenseNumber}
+                    firstYearOfBARAdmission={firstYearOfBARAdmission}
+                    setFirstYearOfBARAdmission={setFirstYearOfBARAdmission}
+                    nationalIDFront={nationalIDFront}
+                    setNationalIDFront={setNationalIDFront}
+                    nationalIDBack={nationalIDBack}
+                    setNationalIDBack={setNationalIDBack}
+                    barMembershipCard={barMembershipCard}
+                    setBarMembershipCard={setBarMembershipCard}
+                    lawCert={lawCert}
+                    setLawCert={setLawCert}
+                    cv={cv}
+                    setCV={setCV}
+                    letter={letter}
+                    setLetter={setLetter}
+                    loadSubmit={loading}
+                    submitData={HandleSubmit}
+                  />
+                </React.Fragment>
+              )}
+            </div>
+          </form>
         </div>
       </div>
     </React.Fragment>

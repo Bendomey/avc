@@ -7,12 +7,11 @@ import LawyerSettings from "../../pages/Lawyer/Settings";
 import LawyerSetup from "../../pages/Lawyer/Setup";
 import Route from "../../services/protectedRoutes";
 
-let userSetup: boolean = true;
-const LawyerDashboard = () => {
+const LawyerDashboard = ({ state }: any) => {
   return (
     <React.Fragment>
       <React.Suspense fallback={PageLoader()}>
-        {userSetup ? (
+        {state?.userToken?.user?.setupAt ? (
           <React.Fragment>
             <Switch>
               <Route

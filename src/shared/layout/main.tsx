@@ -19,7 +19,7 @@ const Layout = () => {
           {state?.userToken?.user?.type === "Customer" ? (
             <ClientLayout state={state} />
           ) : (
-            <LawyerLayout />
+            <LawyerLayout state={state} />
           )}
         </React.Suspense>
       </div>

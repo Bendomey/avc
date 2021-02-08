@@ -1,45 +1,41 @@
 import * as React from "react";
-import { PopupModal } from "../../../components/atoms/Modals";
-import { VerifyModalProp } from "../../../shared/interfaces/register";
+import { PopupModal } from "../../../../components/atoms/Modals";
+import { VerifyPhoneModalProp } from "../../../../shared/interfaces/setup";
 import ClipLoader from "react-spinners/ClipLoader";
-import VerifySVG from "../../../assets/sentMessage";
+import VerifySVG from "../../../../assets/sentMessage";
 import { useMutation, ApolloError } from "@apollo/client";
 import {
-  RESEND_VERIFICATION_CODE,
-  VERIFY_EMAIL,
-} from "../../../services/graphql/mutations";
+  SEND_PHONE_VERIFICATION_CODE,
+  VERIFY_PHONE,
+} from "../../../../services/graphql/mutations";
 import { toaster } from "evergreen-ui";
 import _ from "lodash";
 import {
-  ResendVerificationCodeInputProps,
-  ResendVerificationCodeOutputProps,
-  VerifyEmailInputProps,
-  VerifyEmailOutputProps,
-} from "../../../shared/interfaces/login";
-import { AuthContext } from "../../../services/context";
-import { useHistory } from "react-router-dom";
+  SendVerificationCodeInputProps,
+  SendVerificationCodeOutputProps,
+  VerifyPhoneCodeInputProps,
+  VerifyPhoneCodeOutputProps,
+} from "../../../../shared/interfaces/setup";
 
 const resendLoading = false;
-const VerifyEmail: React.FC<VerifyModalProp> = ({
+const VerifyEmail: React.FC<VerifyPhoneModalProp> = ({
   setShow,
   show,
-  email,
-  id,
+  phone,
+  setPhoneVerified,
 }) => {
-  const [{ signIn }] = React.useContext(AuthContext);
-  const { push } = useHistory();
   const [countDown, setCountdown] = React.useState<number>(59);
   const [code, setCode] = React.useState<string>("");
 
   const [invokeResend, { loading: loadResend }] = useMutation<
-    ResendVerificationCodeOutputProps,
-    ResendVerificationCodeInputProps
-  >(RESEND_VERIFICATION_CODE);
+    SendVerificationCodeOutputProps,
+    SendVerificationCodeInputProps
+  >(SEND_PHONE_VERIFICATION_CODE);
 
   const [invokeVerification, { loading }] = useMutation<
-    VerifyEmailOutputProps,
-    VerifyEmailInputProps
-  >(VERIFY_EMAIL);
+    VerifyPhoneCodeOutputProps,
+    VerifyPhoneCodeInputProps
+  >(VERIFY_PHONE);
 
   React.useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -52,7 +48,7 @@ const VerifyEmail: React.FC<VerifyModalProp> = ({
   const handleResendVerification = () => {
     invokeResend({
       variables: {
-        id,
+        phone,
       },
     })
       .then(() => {
@@ -72,14 +68,14 @@ const VerifyEmail: React.FC<VerifyModalProp> = ({
     }
     invokeVerification({
       variables: {
-        id,
+        phone,
         code,
       },
     })
       .then(async ({ data }) => {
         if (data) {
-          await signIn(data?.verifyUserEmail);
-          push("/");
+          setPhoneVerified(true);
+          setShow(false);
         }
       })
       .catch((e: ApolloError) => {
@@ -118,13 +114,13 @@ const VerifyEmail: React.FC<VerifyModalProp> = ({
                   className={"h-20 w-40 sm:w-40 sm:h-20 md:h-32 md:w-56 mb-2"}
                 />
                 <span className={"text-center font-light mt-4 mx-10"}>
-                  Please enter the six digits code sent to this email:{" "}
-                  <span className={"text-red-600"}>{email}</span>
+                  Please enter the six digits code sent to this phone number:{" "}
+                  <span className={"text-red-600"}>{phone}</span>
                 </span>
                 <div className="mt-4 rounded-none shadow-sm w-3/4">
                   <input
                     type={"string"}
-                    placeholder={"OTP eg 123456.."}
+                    placeholder={"Code here eg 123456.."}
                     value={code}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       setCode(e.target.value)
@@ -170,7 +166,7 @@ const VerifyEmail: React.FC<VerifyModalProp> = ({
                   }
                 >
                   <span className={"font-light text-gray-500"}>
-                    VERIFY EMAIL
+                    VERIFY PHONE
                   </span>
                 </button>
               </div>

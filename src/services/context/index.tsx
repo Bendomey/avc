@@ -43,7 +43,7 @@ const Manipulator = (prevState: any, action: any) => {
       return {
         ...prevState,
         isSignout: false,
-        userToken: action.token,
+        userToken: action.userToken,
       };
     case "SIGN_OUT":
       return {

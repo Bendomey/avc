@@ -37,7 +37,7 @@ const ClientApollo = ({ children }) => {
 
   const errorLink = onError(({ networkError, graphQLErrors }) => {
     if (graphQLErrors?.length > 0) {
-      if (graphQLErrors[0].message === "AuthorizationFailed") {
+      if (graphQLErrors[0].message === "AuthorizationExpired") {
         signOut();
         return toaster.warning("Oops...", {
           description: "Your session expired",

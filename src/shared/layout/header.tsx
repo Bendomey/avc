@@ -7,7 +7,7 @@ import userPng from "../../assets/images/male.jpeg";
 import { CornerDialog } from "evergreen-ui";
 import { AuthContext } from "../../services/context";
 
-const Header = () => {
+const Header = ({ state }: any) => {
   const [{ signOut }] = React.useContext(AuthContext);
   const wrapperContainer = React.useRef<any>(null);
   const [showDropDown, setShowDropdown] = React.useState<boolean>(false);
@@ -125,12 +125,16 @@ const Header = () => {
               </button>
             </div>
             <div className="hidden lg:flex lg:items-center lg:justify-end xl:col-span-4">
-              <a
-                href="/"
-                className="text-sm font-medium text-gray-900 hover:underline"
-              >
-                Go Premium
-              </a>
+              {state?.userToken?.user?.setupAt &&
+                state?.userToken?.user?.type === "Customer" && (
+                  <a
+                    href="/"
+                    className="text-sm font-medium text-gray-900 hover:underline"
+                  >
+                    Go Premium
+                  </a>
+                )}
+
               <a
                 href="/"
                 className="ml-5 flex-shrink-0 bg-white rounded-full p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
@@ -163,7 +167,7 @@ const Header = () => {
                   <button
                     onClick={() => setShowDropdown((prev) => !prev)}
                     type="button"
-                    className="bg-white rounded-full flex focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
+                    className="bg-white rounded-full flex flex-row items-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
                     id="user-menu"
                     aria-haspopup="true"
                   >
@@ -220,13 +224,15 @@ const Header = () => {
                   </div>
                 </Transition>
               </div>
-
-              <a
-                href="/"
-                className="ml-6 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-rose-600 hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
-              >
-                Post Job
-              </a>
+              {state?.userToken?.user?.setupAt &&
+                state?.userToken?.user?.type === "Customer" && (
+                  <a
+                    href="/"
+                    className="ml-6 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-rose-600 hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
+                  >
+                    Post Job
+                  </a>
+                )}
             </div>
           </div>
         </div>

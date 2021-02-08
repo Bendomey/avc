@@ -4,7 +4,9 @@ export interface User {
   otherNames: string;
   lastName: string;
   email: string;
+  type: string;
   emailVerifiedAt: Date;
+  setupAt: Date;
   phone: string;
   phoneVerifiedAt: Date;
   createdAt: Date;
@@ -46,6 +48,15 @@ export interface Customer {
   digitalAddress: string;
   tin: string;
   type: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface Country {
+  id: string;
+  name: string;
+  currency: string;
+  description: string;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -7,12 +7,11 @@ import ClientSettings from "../../pages/Client/Settings";
 import ClientSetup from "../../pages/Client/Setup";
 import Route from "../../services/protectedRoutes";
 
-let userSetup: boolean = false;
-const ClientDashboard = () => {
+const ClientDashboard = ({ state }: any) => {
   return (
     <React.Fragment>
       <React.Suspense fallback={PageLoader()}>
-        {userSetup ? (
+        {state?.userToken?.user?.setupAt ? (
           <React.Fragment>
             <Switch>
               <Route

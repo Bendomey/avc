@@ -13,7 +13,9 @@ export const LOGIN = gql`
         email
         emailVerifiedAt
         phone
+        setupAt
         phoneVerifiedAt
+        type
         createdAt
         updatedAt
       }
@@ -68,7 +70,7 @@ export const RESEND_VERIFICATION_CODE = gql`
 `;
 
 //for verifying email code
-export const VERIFY_EMIAL = gql`
+export const VERIFY_EMAIL = gql`
   mutation($id: ID!, $code: String!) {
     verifyUserEmail(userId: $id, code: $code) {
       token
@@ -80,7 +82,9 @@ export const VERIFY_EMIAL = gql`
         email
         emailVerifiedAt
         phone
+        setupAt
         phoneVerifiedAt
+        type
         createdAt
         updatedAt
       }
@@ -130,6 +134,119 @@ export const REGISTER = gql`
   mutation($type: UserType!, $email: String!, $password: String!) {
     createUser(type: $type, email: $email, password: $password) {
       id
+    }
+  }
+`;
+
+//for sending code to phone
+export const SEND_PHONE_VERIFICATION_CODE = gql`
+  mutation($phone: String!) {
+    sendPhoneVerificationCode(phone: $phone)
+  }
+`;
+
+export const VERIFY_PHONE = gql`
+  mutation($phone: String!, $code: String!) {
+    verifyPhoneCode(phone: $phone, code: $code)
+  }
+`;
+
+//update customer
+export const UPDATE_CUSTOMER = gql`
+  mutation(
+    $firstName: String
+    $lastName: String
+    $otherNames: String
+    $tin: String
+    $phone: String
+    $addressCountry: String
+    $addressCity: String
+    $addressNumber: String
+    $addressStreetName: String
+    $digitalAddress: String
+    $companyEntityTypeOther: String
+    $email: String
+    $companyRegistrationNumber: String
+    $type: CustomerType
+    $companyDateOfRegistration: DateTime
+    $companyEntityType: String
+    $companyCountryOfRegistration: String
+    $companyName: String
+  ) {
+    updateUserAndCustomer(
+      input: {
+        firstName: $firstName
+        lastName: $lastName
+        otherNames: $otherNames
+        tin: $tin
+        phone: $phone
+        addressCountry: $addressCountry
+        addressCity: $addressCity
+        addressNumber: $addressNumber
+        addressStreetName: $addressStreetName
+        digitalAddress: $digitalAddress
+        companyEntityTypeOther: $companyEntityTypeOther
+        email: $email
+        companyRegistrationNumber: $companyRegistrationNumber
+        type: $type
+        companyDateOfRegistration: $companyDateOfRegistration
+        companyEntityType: $companyEntityType
+        companyCountryOfRegistration: $companyCountryOfRegistration
+        companyName: $companyName
+      }
+    ) {
+      token
+      user {
+        id
+        firstName
+        otherNames
+        lastName
+        email
+        type
+        setupAt
+        emailVerifiedAt
+        phone
+        phoneVerifiedAt
+        createdAt
+        updatedAt
+      }
+      lawyer {
+        id
+        addressCity
+        addressCountry
+        addressNumber
+        addressStreetNumber
+        barMembershipCard
+        coverLetter
+        createdAt
+        updatedAt
+        cv
+        digitalAddress
+        firstYearOfBarAdmission
+        lawCertificate
+        licenseNumber
+        nationalIDBack
+        nationalIDFront
+        tin
+      }
+      customer {
+        id
+        addressCity
+        addressCountry
+        addressNumber
+        addressStreetNumber
+        companyCountryOfRegistration
+        companyDateOfRegistration
+        companyEntityType
+        companyEntityTypeOther
+        companyName
+        companyRegistrationNumber
+        createdAt
+        digitalAddress
+        tin
+        type
+        updatedAt
+      }
     }
   }
 `;

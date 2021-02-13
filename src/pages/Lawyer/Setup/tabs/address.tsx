@@ -124,7 +124,7 @@ const Address: React.FC<Props> = ({
                                   {countries?.countries?.map(
                                     (country: Country, i: number) => (
                                       <React.Fragment key={i}>
-                                        <option value={country?.id}>
+                                        <option value={country?.name}>
                                           {country?.name}
                                         </option>
                                       </React.Fragment>

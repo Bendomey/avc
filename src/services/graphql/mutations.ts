@@ -24,7 +24,7 @@ export const LOGIN = gql`
         addressCity
         addressCountry
         addressNumber
-        addressStreetNumber
+        addressStreetName
         barMembershipCard
         coverLetter
         createdAt
@@ -93,7 +93,7 @@ export const VERIFY_EMAIL = gql`
         addressCity
         addressCountry
         addressNumber
-        addressStreetNumber
+        addressStreetName
         barMembershipCard
         coverLetter
         createdAt
@@ -215,7 +215,7 @@ export const UPDATE_CUSTOMER = gql`
         addressCity
         addressCountry
         addressNumber
-        addressStreetNumber
+        addressStreetName
         barMembershipCard
         coverLetter
         createdAt
@@ -317,7 +317,7 @@ export const UPDATE_LAWYER = gql`
         addressCity
         addressCountry
         addressNumber
-        addressStreetNumber
+        addressStreetName
         barMembershipCard
         coverLetter
         createdAt

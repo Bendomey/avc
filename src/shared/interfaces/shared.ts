@@ -18,7 +18,7 @@ export interface Lawyer {
   addressCity: string;
   addressCountry: string;
   addressNumber: string;
-  addressStreetNumber: string;
+  addressStreetName: string;
   barMembershipCard: string;
   coverLetter: string;
   cv: string;
@@ -38,7 +38,7 @@ export interface Customer {
   addressCity: string;
   addressCountry: string;
   addressNumber: string;
-  addressStreetNumber: string;
+  addressStreetName: string;
   companyCountryOfRegistration: string;
   companyDateOfRegistration: Date;
   companyEntityType: string;

@@ -67,7 +67,7 @@ const VerifyEmail: React.FC<VerifyModalProp> = ({
 
   //invoke verify code
   const HandleSubmit = () => {
-    if (code.trim().length < 6) {
+    if (code.trim().length < 5) {
       return toaster.warning("Code Is Incorrect");
     }
     invokeVerification({

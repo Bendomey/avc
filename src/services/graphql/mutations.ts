@@ -11,11 +11,11 @@ export const LOGIN = gql`
         otherNames
         lastName
         email
+        type
         emailVerifiedAt
         phone
-        setupAt
         phoneVerifiedAt
-        type
+        setupAt
         createdAt
         updatedAt
       }
@@ -43,7 +43,7 @@ export const LOGIN = gql`
         addressCity
         addressCountry
         addressNumber
-        addressStreetNumber
+        addressStreetName
         companyCountryOfRegistration
         companyDateOfRegistration
         companyEntityType
@@ -80,11 +80,11 @@ export const VERIFY_EMAIL = gql`
         otherNames
         lastName
         email
+        type
         emailVerifiedAt
         phone
-        setupAt
         phoneVerifiedAt
-        type
+        setupAt
         createdAt
         updatedAt
       }
@@ -112,7 +112,7 @@ export const VERIFY_EMAIL = gql`
         addressCity
         addressCountry
         addressNumber
-        addressStreetNumber
+        addressStreetName
         companyCountryOfRegistration
         companyDateOfRegistration
         companyEntityType
@@ -203,10 +203,10 @@ export const UPDATE_CUSTOMER = gql`
         lastName
         email
         type
-        setupAt
         emailVerifiedAt
         phone
         phoneVerifiedAt
+        setupAt
         createdAt
         updatedAt
       }
@@ -234,7 +234,7 @@ export const UPDATE_CUSTOMER = gql`
         addressCity
         addressCountry
         addressNumber
-        addressStreetNumber
+        addressStreetName
         companyCountryOfRegistration
         companyDateOfRegistration
         companyEntityType
@@ -305,10 +305,10 @@ export const UPDATE_LAWYER = gql`
         lastName
         email
         type
-        setupAt
         emailVerifiedAt
         phone
         phoneVerifiedAt
+        setupAt
         createdAt
         updatedAt
       }
@@ -336,7 +336,7 @@ export const UPDATE_LAWYER = gql`
         addressCity
         addressCountry
         addressNumber
-        addressStreetNumber
+        addressStreetName
         companyCountryOfRegistration
         companyDateOfRegistration
         companyEntityType

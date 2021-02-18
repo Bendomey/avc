@@ -10,9 +10,12 @@ import {
 } from "../../../shared/interfaces/setup";
 import { UPDATE_LAWYER } from "../../../services/graphql/mutations";
 import { useMutation } from "@apollo/client";
+import { toaster } from "evergreen-ui";
+import { useHistory } from "react-router-dom";
 
 const Setup = () => {
-  const [{ signIn }] = React.useContext(AuthContext);
+  const [{ signOut }] = React.useContext(AuthContext);
+  const { push } = useHistory();
 
   //for persoanl
   const [lastName, setLastName] = React.useState<string>("");
@@ -84,7 +87,11 @@ const Setup = () => {
       },
     }).then(async ({ data }) => {
       if (data) {
-        await signIn(data?.updateUserAndLawyer);
+        toaster.notify(
+          "Thank you for applying to be a lawyer on our platform. Your application is under review and you will be notified soon"
+        );
+        signOut();
+        push("/login");
       }
     });
   };

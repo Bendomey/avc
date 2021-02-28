@@ -6,6 +6,7 @@ import { PageLoader } from "../../components/atoms/loadingComponents";
 import ClientSettings from "../../pages/Client/Settings";
 import ClientSetup from "../../pages/Client/Setup";
 import Route from "../../services/protectedRoutes";
+import Resources from "../../components/resources";
 
 const ClientDashboard = ({ state }: any) => {
   return (
@@ -152,36 +153,7 @@ const ClientDashboard = ({ state }: any) => {
                         </Link>
                       </div>
                       <div className="pt-10">
-                        <p
-                          className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider"
-                          id="communities-headline"
-                        >
-                          Resources
-                        </p>
-                        <div
-                          className="mt-3 space-y-2"
-                          aria-labelledby="communities-headline"
-                        >
-                          {[
-                            "Taxation",
-                            "Africa",
-                            "GIPC",
-                            "FDA",
-                            "Securities",
-                            "Arbitration",
-                          ].map((a: string, i) => (
-                            <React.Fragment>
-                              <a
-                                href={`https://africanventurecounsel.com/tags/${a}`}
-                                target={"_blank"}
-                                rel="noreferrer"
-                                className="group flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50"
-                              >
-                                <span className="truncate">{a}</span>
-                              </a>
-                            </React.Fragment>
-                          ))}
-                        </div>
+                        <Resources />
                       </div>
                     </nav>
                   </div>

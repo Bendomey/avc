@@ -1,3 +1,15 @@
+export interface Admin {
+  id: string;
+  fullname: string;
+  email: string;
+  role: string;
+  phone: string;
+  phoneVerifiedAt: Date;
+  suspendedReason: Date;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface User {
   id: string;
   firstName: string;

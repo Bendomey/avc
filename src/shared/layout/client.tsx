@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Switch, Link } from "react-router-dom";
+import { Switch, Link, useLocation } from "react-router-dom";
 import { RouteType as IRoute } from "../interfaces/misc";
 import routes from "../../routes";
 import { PageLoader } from "../../components/atoms/loadingComponents";
@@ -9,6 +9,8 @@ import Route from "../../services/protectedRoutes";
 import Resources from "../../components/resources";
 
 const ClientDashboard = ({ state }: any) => {
+  const { pathname } = useLocation();
+
   return (
     <React.Fragment>
       <React.Suspense fallback={PageLoader()}>
@@ -31,12 +33,20 @@ const ClientDashboard = ({ state }: any) => {
                       <div className="pb-8 space-y-1">
                         <Link
                           to="/"
-                          className="bg-gray-200 text-gray-900 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
+                          className={`${
+                            pathname === "/"
+                              ? "bg-gray-200 text-gray-900"
+                              : "text-gray-600 hover:bg-gray-50"
+                          } group flex items-center px-3 py-2 text-sm font-medium rounded-md`}
                           aria-current="page"
                         >
                           {/* <!-- Heroicon name: outline/home --> */}
                           <svg
-                            className="text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
+                            className={`${
+                              pathname === "/"
+                                ? "text-gray-500"
+                                : "text-gray-400 group-hover:text-gray-500"
+                            } flex-shrink-0 -ml-1 mr-3 h-6 w-6`}
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -60,12 +70,20 @@ const ClientDashboard = ({ state }: any) => {
 
                         <Link
                           to="/jobs"
-                          className="text-gray-600 hover:bg-gray-50 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
+                          className={`${
+                            pathname === "/jobs" || pathname === "/jobs/add"
+                              ? "bg-gray-200 text-gray-900"
+                              : "text-gray-600 hover:bg-gray-50"
+                          } group flex items-center px-3 py-2 text-sm font-medium rounded-md`}
                           aria-current="false"
                         >
                           {/* <!-- Heroicon name: outline/fire --> */}
                           <svg
-                            className="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
+                            className={`${
+                              pathname === "/jobs" || pathname === "/jobs/add"
+                                ? "text-gray-500"
+                                : "text-gray-400 group-hover:text-gray-500"
+                            } flex-shrink-0 -ml-1 mr-3 h-6 w-6`}
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -84,12 +102,20 @@ const ClientDashboard = ({ state }: any) => {
 
                         <Link
                           to="documents"
-                          className="text-gray-600 hover:bg-gray-50 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
+                          className={`${
+                            pathname === "/documents"
+                              ? "bg-gray-200 text-gray-900"
+                              : "text-gray-600 hover:bg-gray-50"
+                          } group flex items-center px-3 py-2 text-sm font-medium rounded-md`}
                           aria-current="false"
                         >
                           {/* <!-- Heroicon name: outline/user-group --> */}
                           <svg
-                            className="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
+                            className={`${
+                              pathname === "/documents"
+                                ? "text-gray-500"
+                                : "text-gray-400 group-hover:text-gray-500"
+                            } flex-shrink-0 -ml-1 mr-3 h-6 w-6`}
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -107,14 +133,22 @@ const ClientDashboard = ({ state }: any) => {
                         </Link>
 
                         <Link
-                          to="/invoices"
-                          className="text-gray-600 hover:bg-gray-50 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
+                          to="/contracts"
+                          className={`${
+                            pathname === "/contracts"
+                              ? "bg-gray-200 text-gray-900"
+                              : "text-gray-600 hover:bg-gray-50"
+                          } group flex items-center px-3 py-2 text-sm font-medium rounded-md`}
                           aria-current="false"
                         >
                           {/* <!-- Heroicon name: outline/trending-up --> */}
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
+                            className={`${
+                              pathname === "/contracts"
+                                ? "text-gray-500"
+                                : "text-gray-400 group-hover:text-gray-500"
+                            } flex-shrink-0 -ml-1 mr-3 h-6 w-6`}
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
@@ -130,12 +164,20 @@ const ClientDashboard = ({ state }: any) => {
                         </Link>
                         <Link
                           to="/transactions"
-                          className="text-gray-600 hover:bg-gray-50 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
+                          className={`${
+                            pathname === "/transactions"
+                              ? "bg-gray-200 text-gray-900"
+                              : "text-gray-600 hover:bg-gray-50"
+                          } group flex items-center px-3 py-2 text-sm font-medium rounded-md`}
                           aria-current="false"
                         >
                           {/* <!-- Heroicon name: outline/trending-up --> */}
                           <svg
-                            className="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
+                            className={`${
+                              pathname === "/transactions"
+                                ? "text-gray-500"
+                                : "text-gray-400 group-hover:text-gray-500"
+                            } flex-shrink-0 -ml-1 mr-3 h-6 w-6`}
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"

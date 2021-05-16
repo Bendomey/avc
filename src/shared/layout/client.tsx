@@ -199,7 +199,7 @@ const ClientDashboard = ({ state }: any) => {
                       </div>
                     </nav>
                   </div>
-                  <main className="lg:col-span-9 xl:col-span-10 overflow-y-auto mainClientDashboardContainer">
+                  <main className="lg:col-span-9 xl:col-span-10 overflow-y-auto pr-1 scrollContainer mainClientDashboardContainer">
                     {routes?.["client"]?.map((route: IRoute, i: number) => (
                       <React.Fragment key={i}>
                         <Route

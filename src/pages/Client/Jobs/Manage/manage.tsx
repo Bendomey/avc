@@ -1,4 +1,10 @@
 import * as React from "react";
+import Dataview from "../Dataview";
+
+const data = {
+  servicing: [{}, {}],
+  servicingsLength: 2,
+};
 
 const ManageJobs = () => {
   return (
@@ -51,6 +57,9 @@ const ManageJobs = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div className={"mt-5"}>
+        <Dataview data={data} />
       </div>
     </React.Fragment>
   );

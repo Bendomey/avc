@@ -14,7 +14,7 @@ const Dataview: React.FC<Props> = ({ data }) => {
         </span>
       </div>
       <div className={"mb-10"}>
-        {data?.servicing?.map((servicing: any, i: number) => (
+        {data?.servicings?.map((servicing: any, i: number) => (
           <React.Fragment key={i}>
             <div className={`${i > 0 && "mt-4"}`}>
               <Card data={servicing} />

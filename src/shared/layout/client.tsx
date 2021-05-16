@@ -40,7 +40,6 @@ const ClientDashboard = ({ state }: any) => {
                           } group flex items-center px-3 py-2 text-sm font-medium rounded-md`}
                           aria-current="page"
                         >
-                          {/* <!-- Heroicon name: outline/home --> */}
                           <svg
                             className={`${
                               pathname === "/"
@@ -77,7 +76,6 @@ const ClientDashboard = ({ state }: any) => {
                           } group flex items-center px-3 py-2 text-sm font-medium rounded-md`}
                           aria-current="false"
                         >
-                          {/* <!-- Heroicon name: outline/fire --> */}
                           <svg
                             className={`${
                               pathname === "/jobs" || pathname === "/jobs/add"
@@ -100,7 +98,7 @@ const ClientDashboard = ({ state }: any) => {
                           <span className="truncate">My Jobs</span>
                         </Link>
 
-                        <Link
+                        {/* <Link
                           to="documents"
                           className={`${
                             pathname === "/documents"
@@ -109,7 +107,6 @@ const ClientDashboard = ({ state }: any) => {
                           } group flex items-center px-3 py-2 text-sm font-medium rounded-md`}
                           aria-current="false"
                         >
-                          {/* <!-- Heroicon name: outline/user-group --> */}
                           <svg
                             className={`${
                               pathname === "/documents"
@@ -130,9 +127,9 @@ const ClientDashboard = ({ state }: any) => {
                           </svg>
 
                           <span className="truncate">My Documents</span>
-                        </Link>
+                        </Link> */}
 
-                        <Link
+                        {/* <Link
                           to="/contracts"
                           className={`${
                             pathname === "/contracts"
@@ -141,7 +138,6 @@ const ClientDashboard = ({ state }: any) => {
                           } group flex items-center px-3 py-2 text-sm font-medium rounded-md`}
                           aria-current="false"
                         >
-                          {/* <!-- Heroicon name: outline/trending-up --> */}
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             className={`${
@@ -161,7 +157,7 @@ const ClientDashboard = ({ state }: any) => {
                             />
                           </svg>
                           <span className="truncate">My Contracts</span>
-                        </Link>
+                        </Link> */}
                         <Link
                           to="/transactions"
                           className={`${
@@ -171,7 +167,6 @@ const ClientDashboard = ({ state }: any) => {
                           } group flex items-center px-3 py-2 text-sm font-medium rounded-md`}
                           aria-current="false"
                         >
-                          {/* <!-- Heroicon name: outline/trending-up --> */}
                           <svg
                             className={`${
                               pathname === "/transactions"

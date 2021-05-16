@@ -203,13 +203,13 @@ const Header = ({ state }: any) => {
                       Your Profile
                     </a>
 
-                    <a
-                      href="/"
+                    <Link
+                      to="/settings"
                       className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100"
                       role="menuitem"
                     >
                       Settings
-                    </a>
+                    </Link>
 
                     <span
                       onClick={() => {
@@ -324,12 +324,12 @@ const Header = ({ state }: any) => {
                 Your Profile
               </a>
 
-              <a
-                href="/"
+              <Link
+                to="/settings"
                 className="block rounded-md py-2 px-3 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900"
               >
                 Settings
-              </a>
+              </Link>
 
               <a
                 href="/"

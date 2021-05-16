@@ -2,7 +2,7 @@ import * as React from "react";
 import Dataview from "../Dataview";
 
 const data = {
-  servicing: [{}, {}],
+  servicings: [{}, {}],
   servicingsLength: 2,
 };
 

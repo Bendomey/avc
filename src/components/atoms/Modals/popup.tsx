@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import Transition from "../transitions";
 import { useOutsideListener } from "../Hooks";
 import { BasicProps } from "./modal";
-import style from "./modal.module.css";
 
 const Modal = ({ show, setShow, size, children, canClose }: BasicProps) => {
   const ref = useRef(null);

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Transition from "../transitions";
 import { useOutsideListener } from "../Hooks";
 import { BasicProps } from "./modal";
+import style from "./modal.module.css";
 
 const Modal = ({ show, setShow, size, children, canClose }: BasicProps) => {
   const ref = useRef(null);
@@ -37,7 +38,7 @@ const Modal = ({ show, setShow, size, children, canClose }: BasicProps) => {
         <div className="fixed z-20 bottom-0 inset-x-0 px-4 pb-6 sm:inset-0 sm:p-0 sm:flex sm:items-center sm:justify-center">
           <div
             ref={ref}
-            className="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all"
+            className=" rounded-lg overflow-hidden transform transition-all sm:flex sm:items-center sm:justify-center"
             role="dialog"
             aria-modal="true"
             aria-labelledby="modal-headline"

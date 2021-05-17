@@ -36,10 +36,8 @@ const VerifyEmail: React.FC<VerifyModalProp> = ({
     ResendVerificationCodeInputProps
   >(RESEND_VERIFICATION_CODE);
 
-  const [invokeVerification, { loading }] = useMutation<
-    VerifyEmailOutputProps,
-    VerifyEmailInputProps
-  >(VERIFY_EMAIL);
+  const [invokeVerification, { loading }] =
+    useMutation<VerifyEmailOutputProps, VerifyEmailInputProps>(VERIFY_EMAIL);
 
   React.useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -92,7 +90,7 @@ const VerifyEmail: React.FC<VerifyModalProp> = ({
     <React.Fragment>
       <PopupModal show={show} setShow={setShow} canClose={false}>
         <React.Fragment>
-          <div className={"verifyRegisterEmailModalContainer"}>
+          <div className={"verifyRegisterEmailModalContainer bg-white"}>
             {loading && (
               <div
                 className={

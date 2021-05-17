@@ -32,10 +32,10 @@ const VerifyEmail: React.FC<VerifyPhoneModalProp> = ({
     SendVerificationCodeInputProps
   >(SEND_PHONE_VERIFICATION_CODE);
 
-  const [invokeVerification, { loading }] = useMutation<
-    VerifyPhoneCodeOutputProps,
-    VerifyPhoneCodeInputProps
-  >(VERIFY_PHONE);
+  const [invokeVerification, { loading }] =
+    useMutation<VerifyPhoneCodeOutputProps, VerifyPhoneCodeInputProps>(
+      VERIFY_PHONE
+    );
 
   React.useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -63,9 +63,9 @@ const VerifyEmail: React.FC<VerifyPhoneModalProp> = ({
 
   //invoke verify code
   const HandleSubmit = () => {
-    if (code.trim().length < 6) {
-      return toaster.warning("Code Is Incorrect");
-    }
+    // if (code.trim().length < 6) {
+    //   return toaster.warning("Code Is Incorrect");
+    // }
     invokeVerification({
       variables: {
         phone,
@@ -88,7 +88,7 @@ const VerifyEmail: React.FC<VerifyPhoneModalProp> = ({
     <React.Fragment>
       <PopupModal show={show} setShow={setShow} canClose={false}>
         <React.Fragment>
-          <div className={"verifyRegisterEmailModalContainer"}>
+          <div className={"verifyRegisterEmailModalContainer bg-white"}>
             {loading && (
               <div
                 className={

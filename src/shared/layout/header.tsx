@@ -127,12 +127,12 @@ const Header = ({ state }: any) => {
             <div className="hidden lg:flex lg:items-center lg:justify-end xl:col-span-4">
               {state?.userToken?.user?.setupAt &&
                 state?.userToken?.user?.type === "Customer" && (
-                  <a
-                    href="/"
+                  <Link
+                    to="/go-premium"
                     className="text-sm font-medium text-gray-900 hover:underline"
                   >
                     Go Premium
-                  </a>
+                  </Link>
                 )}
 
               <a

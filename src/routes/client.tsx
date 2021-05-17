@@ -4,7 +4,6 @@ import { RouteType } from "../shared/interfaces/misc";
 const Overview = lazy(() => import("../pages/Client/Overview"));
 
 // for jobs
-const AddJob = lazy(() => import("../pages/Client/Jobs/Add"));
 const ManageJobs = lazy(() => import("../pages/Client/Jobs/Manage"));
 
 // for transactions
@@ -22,12 +21,6 @@ const routes: RouteType[] = [
     component: ManageJobs,
     exact: true,
     path: "/jobs",
-  },
-  {
-    name: "Add Job",
-    component: AddJob,
-    exact: true,
-    path: "/jobs/add",
   },
   {
     name: "Manage Transactions",

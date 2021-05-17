@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BreadCrumb } from "./components/breadcrumb";
+// import { BreadCrumb } from "./components/breadcrumb";
 import { Topbar } from "./components/topbar";
 import { Footer } from "./components/footer";
 import { StepOne, StepTwo, StepThree } from "./components/tab";
@@ -10,9 +10,9 @@ const AddJob = () => {
 
   return (
     <React.Fragment>
-      <div className={"px-3"}>
+      {/* <div className={"mx mt-5"}>
         <BreadCrumb />
-      </div>
+      </div> */}
 
       <div className={"mt-7 flex flex-col items-center"}>
         <h1 className={"font-bold mb-5 text-3xl mt-1 text-red-600"}>

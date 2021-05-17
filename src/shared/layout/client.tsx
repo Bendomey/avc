@@ -4,6 +4,8 @@ import { RouteType as IRoute } from "../interfaces/misc";
 import routes from "../../routes";
 import { PageLoader } from "../../components/atoms/loadingComponents";
 import ClientSettings from "../../pages/Client/Settings";
+import GoPremium from "../../pages/Client/GoPremium";
+import AddJob from "../../pages/Client/Jobs/Add";
 import ClientSetup from "../../pages/Client/Setup";
 import Route from "../../services/protectedRoutes";
 import Resources from "../../components/resources";
@@ -22,6 +24,18 @@ const ClientDashboard = ({ state }: any) => {
                 exact={true}
                 name={"Settings"}
                 component={ClientSettings}
+              />
+              <Route
+                path={"/go-premium"}
+                exact={true}
+                name={"GoPremium"}
+                component={GoPremium}
+              />
+              <Route
+                path={"/jobs/add"}
+                exact={true}
+                name={"AddJob"}
+                component={AddJob}
               />
               <div className="pt-5">
                 <div className="max-w-3xl mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-12 lg:gap-8">

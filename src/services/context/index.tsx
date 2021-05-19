@@ -1,20 +1,17 @@
 import React, {
   Fragment,
-  lazy,
-  Suspense,
   useReducer,
   useEffect,
   useMemo,
   createContext,
 } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { CenterLoader } from "../../components/atoms/loadingComponents";
+
 import ClientApollo from "../graphql";
 import Auth from "../cookie.config";
+import { LoadMe } from "./loader";
 
-const Login = lazy(() => import("../../pages/Auth/login"));
-const Register = lazy(() => import("../../pages/Auth/register"));
-const Layout = lazy(() => import("../../shared/layout"));
+import { SettingsConfig } from "./app";
+import { toaster } from "evergreen-ui";
 
 interface ContextState {
   isLoading: boolean;
@@ -57,22 +54,6 @@ const Manipulator = (prevState: any, action: any) => {
   }
 };
 
-const SettingsConfig = ({ state }: any) => {
-  return (
-    <Fragment>
-      <BrowserRouter>
-        <Suspense fallback={CenterLoader()}>
-          <Switch>
-            <Route exact={true} component={Login} path={"/login"} />
-            <Route exact={true} component={Register} path={"/register"} />
-            <Route exact={false} component={Layout} path={"/"} />
-          </Switch>
-        </Suspense>
-      </BrowserRouter>
-    </Fragment>
-  );
-};
-
 function AppNavigator() {
   const [state, dispatch] = useReducer(Manipulator, {
     isLoading: true,
@@ -82,17 +63,54 @@ function AppNavigator() {
 
   useEffect(() => {
     let userToken: string | null = Auth.getCipher();
-    let data;
+    let data: any;
     if (userToken) data = JSON.parse(userToken);
     else data = null;
-    dispatch({ type: "RESTORE_TOKEN", userToken: data });
+
+    if (data) {
+      getMe(data?.id)
+        .then((res: any) => {
+          if (res?.success) {
+            return dispatch({
+              type: "RESTORE_TOKEN",
+              userToken: {
+                ...res?.data,
+                token: data?.token,
+              },
+            });
+          } else {
+            console.log(res);
+            dispatch({ type: "SIGN_OUT" });
+            toaster.notify(res?.errorMessage);
+          }
+        })
+        .catch((errorHere) => {
+          dispatch({ type: "SIGN_OUT" });
+          toaster.notify("Something happened");
+        });
+    } else {
+      dispatch({ type: "SIGN_OUT" });
+    }
   }, []);
+
+  const getMe = (id: string) => {
+    return fetch(`${process.env.REACT_APP_SERVER_URL}/api/getuser`, {
+      method: "GET",
+      headers: {
+        authorization: id,
+      },
+    }).then((res) => res.json());
+  };
 
   const authContextController = useMemo(
     () => ({
-      signIn: async (token: object): Promise<void> => {
-        Auth.setCipher(JSON.stringify(token));
-        dispatch({ type: "SIGN_IN", userToken: token });
+      signIn: async (data: any): Promise<void> => {
+        let newData = {
+          token: data?.token,
+          id: data?.user?.id,
+        };
+        Auth.setCipher(JSON.stringify(newData));
+        dispatch({ type: "SIGN_IN", userToken: data });
       },
       signOut: (): void => {
         Auth.clearCipher();
@@ -105,12 +123,12 @@ function AppNavigator() {
   return (
     <Fragment>
       {state.isLoading ? (
-        <CenterLoader />
+        <LoadMe />
       ) : (
         <Fragment>
           <AuthContext.Provider value={[authContextController, state]}>
             <ClientApollo>
-              <SettingsConfig state={state} />
+              <SettingsConfig />
             </ClientApollo>
           </AuthContext.Provider>
         </Fragment>

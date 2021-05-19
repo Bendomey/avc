@@ -34,10 +34,8 @@ const Login = () => {
     Cookies.clearCipher();
   }, []);
 
-  const [invokeLogin, { loading }] = useMutation<
-    LoginOutputProps,
-    LoginInputProps
-  >(LOGIN);
+  const [invokeLogin, { loading }] =
+    useMutation<LoginOutputProps, LoginInputProps>(LOGIN);
 
   const [invokeResend, { loading: loadResend }] = useMutation<
     ResendVerificationCodeOutputProps,

@@ -9,8 +9,6 @@ const tier = {
   includedFeatures: [
     "Potenti felis, in cras at at ligula nunc. ",
     "Orci neque eget pellentesque.",
-    "Donec mauris sit in eu tincidunt etiam.",
-    "Faucibus volutpat magna.",
   ],
 };
 

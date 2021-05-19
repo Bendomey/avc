@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 
-export const BASE_URL = process.env.REACT_APP_SERVER_URL;
+export const BASE_URL = process.env.REACT_APP_SERVER_URL + "/graphql";
 
 class Auth {
   getCipher(): string | null {

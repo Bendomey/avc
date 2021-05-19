@@ -79,7 +79,6 @@ function AppNavigator() {
               },
             });
           } else {
-            console.log(res);
             dispatch({ type: "SIGN_OUT" });
             toaster.notify(res?.errorMessage);
           }

@@ -17,10 +17,16 @@ interface Props {
 }
 
 const PackageCard: React.FC<Props> = ({ tier, period, onChoose }) => {
-  const { data, loading } =
-    useQuery<GetPackageServicesOutputProps, GetPackageServicesInputProps>(
-      GET_PACKAGE_SERVICES
-    );
+  const { data, loading } = useQuery<
+    GetPackageServicesOutputProps,
+    GetPackageServicesInputProps
+  >(GET_PACKAGE_SERVICES, {
+    variables: {
+      filter: {
+        package: tier?.id,
+      },
+    },
+  });
   return (
     <React.Fragment>
       <div className={"relative h-full"}>

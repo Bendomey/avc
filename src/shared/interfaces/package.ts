@@ -52,7 +52,7 @@ export interface GetPackageServicesOutputProps {
 }
 
 export interface CreatePackageInputProps {
-  name: string;
+  name?: string;
   description?: string;
   amountPerMonth: number;
   amountPerYear: number;

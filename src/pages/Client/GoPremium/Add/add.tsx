@@ -89,7 +89,7 @@ const AddPackage: React.FC<Props> = ({ setAdd, refetch }) => {
 
     invokeCreation({
       variables: {
-        name,
+        name: name || undefined,
         amountPerMonth: parseFloat(pricePerMonth) / 100,
         amountPerYear: parseFloat(pricePerYear) / 100,
         packageServices: newPackacages,
@@ -123,12 +123,16 @@ const AddPackage: React.FC<Props> = ({ setAdd, refetch }) => {
               type="text"
               name="email"
               id="email"
+              value={name}
+              onChange={(e: any) => setName(e?.target?.value)}
               className="shadow-sm focus:ring-rose-500 bg-gray-50 focus:border-rose-500 block w-full sm:text-sm border-gray-200 rounded-none"
               placeholder="Name here - optional"
             />
           </div>
           <div className={"mt-3"}>
             <textarea
+              value={description}
+              onChange={(e: any) => setDescription(e?.target?.value)}
               className="shadow-sm focus:ring-rose-500 bg-gray-50 focus:border-rose-500 block w-full sm:text-sm border-gray-200 rounded-none"
               placeholder="Description here... - optional"
             ></textarea>

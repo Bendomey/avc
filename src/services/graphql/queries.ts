@@ -87,6 +87,7 @@ export const GET_SERVICES = gql`
       description
       price
       type
+      variant
       createdAt
       updatedAt
     }

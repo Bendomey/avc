@@ -356,7 +356,7 @@ export const UPDATE_LAWYER = gql`
 //create package
 export const CREATE_PACKAGE = gql`
   mutation (
-    $name: String!
+    $name: String
     $description: String
     $packageServices: [CustomPackageServices]!
   ) {

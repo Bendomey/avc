@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 //for login
 export const LOGIN = gql`
-  mutation($email: String!, $password: String!) {
+  mutation ($email: String!, $password: String!) {
     loginUser(email: $email, password: $password) {
       token
       user {
@@ -62,7 +62,7 @@ export const LOGIN = gql`
 
 //for resending verification code
 export const RESEND_VERIFICATION_CODE = gql`
-  mutation($id: ID!) {
+  mutation ($id: ID!) {
     resendUserCode(userId: $id) {
       id
     }
@@ -71,7 +71,7 @@ export const RESEND_VERIFICATION_CODE = gql`
 
 //for verifying email code
 export const VERIFY_EMAIL = gql`
-  mutation($id: ID!, $code: String!) {
+  mutation ($id: ID!, $code: String!) {
     verifyUserEmail(userId: $id, code: $code) {
       token
       user {
@@ -131,7 +131,7 @@ export const VERIFY_EMAIL = gql`
 
 //for registrations
 export const REGISTER = gql`
-  mutation($type: UserType!, $email: String!, $password: String!) {
+  mutation ($type: UserType!, $email: String!, $password: String!) {
     createUser(type: $type, email: $email, password: $password) {
       id
     }
@@ -140,20 +140,20 @@ export const REGISTER = gql`
 
 //for sending code to phone
 export const SEND_PHONE_VERIFICATION_CODE = gql`
-  mutation($phone: String!) {
+  mutation ($phone: String!) {
     sendPhoneVerificationCode(phone: $phone)
   }
 `;
 
 export const VERIFY_PHONE = gql`
-  mutation($phone: String!, $code: String!) {
+  mutation ($phone: String!, $code: String!) {
     verifyPhoneCode(phone: $phone, code: $code)
   }
 `;
 
 //update customer
 export const UPDATE_CUSTOMER = gql`
-  mutation(
+  mutation (
     $firstName: String
     $lastName: String
     $otherNames: String
@@ -253,7 +253,7 @@ export const UPDATE_CUSTOMER = gql`
 
 //update lawyer
 export const UPDATE_LAWYER = gql`
-  mutation(
+  mutation (
     $firstName: String
     $lastName: String
     $otherNames: String
@@ -349,6 +349,23 @@ export const UPDATE_LAWYER = gql`
         type
         updatedAt
       }
+    }
+  }
+`;
+
+//create package
+export const CREATE_PACKAGE = gql`
+  mutation (
+    $name: String!
+    $description: String
+    $packageServices: [CustomPackageServices]!
+  ) {
+    createCustomPackage(
+      name: $name
+      description: $description
+      packageServices: $packageServices
+    ) {
+      id
     }
   }
 `;

@@ -50,3 +50,21 @@ export interface GetPackageServicesOutputProps {
   packageServices: PackageService[];
   packageServicesLength: number;
 }
+
+export interface CreatePackageInputProps {
+  name: string;
+  description?: string;
+  amountPerMonth: number;
+  amountPerYear: number;
+  packageServices: InputPackageService[];
+}
+
+export interface InputPackageService {
+  serviceId: string;
+  quantity: number | undefined;
+  isActive: boolean | undefined;
+}
+
+export interface CreatePackageOutputProps {
+  createPackage: Package;
+}

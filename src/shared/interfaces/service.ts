@@ -5,8 +5,8 @@ export interface Service {
   name: string;
   description: string;
   price: number;
-  type: "NUMBER" | "BOOLEAN";
-  variant: "PENDING" | "APPROVED";
+  type: "BOTH" | "SUBSCRIBE" | "UNSUBSCRIBE";
+  variant: "BOOLEAN" | "NUMBER";
   createdAt: Date;
   updatedAt: Date;
   requestedBy: User;

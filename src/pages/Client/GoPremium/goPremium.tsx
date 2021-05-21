@@ -26,7 +26,7 @@ export default function GoPremium() {
   const [approve, setApprove] = React.useState(false);
   const [selected, setSelected] = React.useState<any>(null);
 
-  const { data, loading } = useQuery<
+  const { data, loading, refetch } = useQuery<
     GetPackagesOutputProps,
     GetPackagesInputProps
   >(GET_PACKAGES, {
@@ -83,7 +83,7 @@ export default function GoPremium() {
                           </React.Fragment>
                         ))}
                         {add ? (
-                          <AddPackage setAdd={setAdd} />
+                          <AddPackage setAdd={setAdd} refetch={refetch} />
                         ) : (
                           <EmptyTemplate setAdd={setAdd} />
                         )}

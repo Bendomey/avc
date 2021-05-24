@@ -43,8 +43,6 @@ interface PackageServicesProps {
 const AddPackage: React.FC<Props> = ({ setAdd, refetch }) => {
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
-  const [pricePerMonth, setPricePerMonth] = React.useState("");
-  const [pricePerYear, setPricePerYear] = React.useState("");
   const [packageServices, setPackageServices] = React.useState<
     PackageServicesProps[]
   >([]);
@@ -90,8 +88,6 @@ const AddPackage: React.FC<Props> = ({ setAdd, refetch }) => {
     invokeCreation({
       variables: {
         name: name || undefined,
-        amountPerMonth: parseFloat(pricePerMonth) / 100,
-        amountPerYear: parseFloat(pricePerYear) / 100,
         packageServices: newPackacages,
         description: description || undefined,
       },
@@ -101,8 +97,6 @@ const AddPackage: React.FC<Props> = ({ setAdd, refetch }) => {
         toaster.success("You successfully added this package");
         setAdd(false);
         setName("");
-        setPricePerMonth("");
-        setPricePerYear("");
         setDescription("");
         setPackageServices(holdPackageServices);
       })

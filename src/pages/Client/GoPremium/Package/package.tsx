@@ -9,6 +9,7 @@ import {
   PackageService,
 } from "../../../../shared/interfaces/package";
 import PuffLoader from "react-spinners/PuffLoader";
+import { convertToDollars } from "../../../../services/broker";
 
 interface Props {
   tier: Package;
@@ -73,8 +74,8 @@ const PackageCard: React.FC<Props> = ({ tier, period, onChoose }) => {
                   <span className="text-4xl font-extrabold text-gray-900">
                     $
                     {period === "monthly"
-                      ? tier.amountPerMonth
-                      : tier.amountPerYear}
+                      ? convertToDollars(tier.amountPerMonth)
+                      : convertToDollars(tier.amountPerYear)}
                   </span>{" "}
                   <span className="text-base font-medium text-gray-500">
                     /{period === "monthly" ? "mon" : "year"}

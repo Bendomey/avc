@@ -5,3 +5,7 @@ export const getYears = (startYear: number, endYear: number): number[] => {
   }
   return years.reverse();
 };
+
+export const convertToDollars = (amount: number) => amount / 100;
+
+export const convertToCents = (amount: number) => amount * 100;

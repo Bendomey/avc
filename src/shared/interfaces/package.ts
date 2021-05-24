@@ -54,8 +54,6 @@ export interface GetPackageServicesOutputProps {
 export interface CreatePackageInputProps {
   name?: string;
   description?: string;
-  amountPerMonth: number;
-  amountPerYear: number;
   packageServices: InputPackageService[];
 }
 
